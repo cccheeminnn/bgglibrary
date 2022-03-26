@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+
+    <body>
+        <h1>Board Game Library~</h1>
+        <form>
+            <table border="2">
+                <thead>
+                    <tr>
+                        <td><h2>Search for a game!</h2></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            Game Name: <input type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Game Id: <input type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button>Search</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        <form method="GET" action="/library">
+            <table border="1">
+                <tbody>
+                    <tr>
+                        <td>
+                            <button name="page" value="1">Library</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </body>
+
+</html>

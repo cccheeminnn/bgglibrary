@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+
+    <body>
+        <h1>Board Game Library~</h1>
+        <form>
+            <table border="2">
+                <thead>
+                    <tr>
+                        <td><h2>Search for a game!</h2></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            Game Name: <input type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Game Id: <input type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button>Search</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        <br>
+        <br>
+        <form method="GET" action="/library">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td>Name</td>
+                        <td>URL</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="g: ${brdGameList}">
+                        <td><img th:src="${g.image}"></td>
+                        <td th:text="${g.name}"></td>
+                        <td><a th:href="${g.url}"><span th:text="${g.url}"></span>></a></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <button name="page" th:value="${currPage} + 1">Next Page</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </body>
+
+</html>
