@@ -30,8 +30,10 @@ public class BoardGameRepository {
     
     public void findAndSaveGames() 
     {
+        //if its been saved it wont save again, assuming database size fixed
         if (!redisTemplate.hasKey("boardgames")) 
         {
+            //instead of ResponseEntity or cmd line args classLoader searches for the file
             ClassLoader classLoader = getClass().getClassLoader();
             try (InputStream is = classLoader.getResourceAsStream("static/game.json")) {
                 JsonReader reader = Json.createReader(is);
@@ -43,7 +45,6 @@ public class BoardGameRepository {
                         "boardgames", //key
                         o.toString()); //value
                 });
-                
             } catch (FileNotFoundException e) {
                 logger.error(">>> FileNotFoundException for game.json");
             } catch (IOException e) {
@@ -54,14 +55,17 @@ public class BoardGameRepository {
 
     public List<BoardGame> retrieveBoardGame(Integer pageNumber) 
     {
-        List<BoardGame> retrievedListBrdGame = new ArrayList<>();
         List<String> retrievedListStr = new ArrayList<>();
-
-        retrievedListStr = redisTemplate.opsForList().range
-            ("boardgames", //key
+        //parse in the 10 elements according to the page number
+        retrievedListStr = redisTemplate.opsForList().range(
+            "boardgames", //key
             0+10*(pageNumber-1), //first index
             9+10*(pageNumber-1)); //last index
-            
+        
+        List<BoardGame> retrievedListBrdGame = new ArrayList<>();
+        //each String was converted from a JsonObject, now each String is parse
+        //back as JsonObject and a new instance of BoardGame is created then saved
+        //into List<BoardGame>
         retrievedListStr.stream().forEach(s -> {
             JsonReader reader = Json.createReader(new StringReader(s));
             JsonObject object = reader.readObject();

@@ -21,8 +21,6 @@ public class BoardGameController
 {
     private static final Logger logger = LoggerFactory.getLogger(BoardGameController.class);
     
-    Integer defaultPageNumber = 1;
-    
     @Autowired
     private BoardGameService brdGameSvc;
 
@@ -41,7 +39,7 @@ public class BoardGameController
     public String getBoardGameList(@RequestParam String page, Model m) 
     {   
         Integer pageInt = Integer.parseInt(page);
-        logger.info(">>> currPage " + pageInt);
+        
         //retrieve board game list
         List<BoardGame> brdGameList = brdGameRepo.retrieveBoardGame(pageInt);
 
