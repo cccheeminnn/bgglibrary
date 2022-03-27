@@ -59,6 +59,9 @@ public class BoardGameController
         List<BoardGame> brdGameList = brdGameRepo.retrieveSearches(gameName, gameId);
 
         m.addAttribute("brdGameList", brdGameList);
+        m.addAttribute("searchName", gameName);
+        m.addAttribute("searchId", gameId);
+
         //a different template, this returns all searched result to the user in one page
         return "searchresult";
     }
