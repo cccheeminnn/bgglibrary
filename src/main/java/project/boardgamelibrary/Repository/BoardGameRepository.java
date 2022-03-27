@@ -6,6 +6,9 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,5 +82,49 @@ public class BoardGameRepository {
         });
 
         return retrievedListBrdGame;
+    }
+
+    public List<BoardGame> retrieveSearches(String gameName, String gameId) 
+    {
+        logger.info(">>> Repo retrieveSearches " + gameName + " " + gameId);
+        gameName = gameName.toLowerCase();
+
+        List<BoardGame> allBoardGames = new ArrayList<>();
+        //parse all board games from db to List<String>
+        List<String> searchResultList = redisTemplate.opsForList().range("boardgames", 0, -1);
+        //convert back to JsonObject > object of BoardGame class > put inside List<BoardGame>
+        searchResultList.stream().forEach(s -> {
+            JsonReader reader = Json.createReader(new StringReader(s));
+            JsonObject object = reader.readObject();
+
+            BoardGame brdGame = new BoardGame();
+            brdGame.setName(object.getString("name"));
+            brdGame.setGid(object.getInt("gid"));
+            brdGame.setUrl(object.getString("url"));
+            brdGame.setImage(object.getString("image"));
+            allBoardGames.add(brdGame);
+            });
+        //using the allBoardGames list to do the filter and return the result to the list below
+        List<BoardGame> resultList = new ArrayList<>();
+        
+        //scenario 1, as long as gameId is input means the person know the exact Gid
+        if (!gameId.isBlank()) {
+            Integer gameIdInt = Integer.parseInt(gameId);
+            for (BoardGame bg : allBoardGames) {
+                if (bg.getGid() == gameIdInt) {
+                    resultList.add(bg);
+                }
+            }
+            return resultList;
+        //scenario 2, only gameName is input
+        } else if (!gameName.isBlank()) {
+            for (BoardGame bg : allBoardGames) {
+                if (bg.getName().toLowerCase().contains(gameName)) {
+                    resultList.add(bg);
+                }
+            }
+            return resultList;
+        }
+        return resultList;
     }
 }

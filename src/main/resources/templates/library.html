@@ -9,7 +9,7 @@
 
     <body>
         <h1>Board Game Library~</h1>
-        <form>
+        <form method="GET" action="/library/search">
             <table border="2">
                 <thead>
                     <tr>
@@ -19,12 +19,12 @@
                 <tbody>
                     <tr>
                         <td>
-                            Game Name: <input type="text">
+                            Game Name: <input type="text" name="gameName">
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            Game Id: <input type="text">
+                            Game Id: <input type="text" name="gameId">
                         </td>
                     </tr>
                     <tr>
@@ -54,6 +54,7 @@
                     </tr>
                     <tr>
                         <td colspan="3">
+                            <button name="page" th:value="${currPage} - 1">Prev Page</button>
                             <button name="page" th:value="${currPage} + 1">Next Page</button>
                         </td>
                     </tr>
