@@ -6,9 +6,6 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,9 +106,9 @@ public class BoardGameRepository {
         
         //scenario 1, as long as gameId is input means the person know the exact Gid
         if (!gameId.isBlank()) {
-            Integer gameIdInt = Integer.parseInt(gameId);
             for (BoardGame bg : allBoardGames) {
-                if (bg.getGid() == gameIdInt) {
+                if (bg.getGid().toString().equals(gameId)) {
+                    logger.info(">>> result found " + bg.getName());
                     resultList.add(bg);
                 }
             }

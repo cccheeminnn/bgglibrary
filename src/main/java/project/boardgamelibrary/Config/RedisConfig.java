@@ -1,6 +1,5 @@
 package project.boardgamelibrary.Config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
@@ -12,11 +11,9 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class RedisConfig 
 {
-    @Value("${spring.redis.host}")
-    private String redisHost;
-
-    @Value("${spring.redis.port}")
-    private Integer redisPort;
+    private String redisHost = System.getenv("REDIS_HOST");
+    private Integer redisPort = Integer.parseInt(System.getenv("REDIS_PORT"));
+    private String redisPassword = System.getenv("REDIS_PASSWORD");
 
     @Bean(name="boardgames")
     public RedisTemplate<String, String> createRedisTemplate() 
@@ -24,6 +21,7 @@ public class RedisConfig
         RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
         config.setHostName(redisHost);
         config.setPort(redisPort);
+        config.setPassword(redisPassword);
 
         JedisClientConfiguration jedisConfig = JedisClientConfiguration.builder().build();
         JedisConnectionFactory jedisFac = new JedisConnectionFactory(config, jedisConfig);

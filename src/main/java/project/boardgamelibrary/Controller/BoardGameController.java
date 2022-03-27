@@ -2,8 +2,6 @@ package project.boardgamelibrary.Controller;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,17 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import project.boardgamelibrary.Model.BoardGame;
 import project.boardgamelibrary.Repository.BoardGameRepository;
-import project.boardgamelibrary.Service.BoardGameService;
 
 @Controller
 @RequestMapping(path="")
 public class BoardGameController 
 {
-    private static final Logger logger = LoggerFactory.getLogger(BoardGameController.class);
-    
-    @Autowired
-    private BoardGameService brdGameSvc;
-
     @Autowired
     private BoardGameRepository brdGameRepo;
 
