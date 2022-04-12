@@ -6,7 +6,7 @@ on:
     - '!v*-alpha'
 jobs:
   deploy_to_heroku:
-    runs-on: ubuntu-version
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout src #checkout the code for workflow to use
       uses: actions/checkout@v2
@@ -14,6 +14,6 @@ jobs:
       uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
       with:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}} #required
-        heroku_app_name: "chukdovbear" #required, Must be unique in Heroku
+        heroku_app_name: "bgglibrary" #required, Must be unique in Heroku
         heroku_email: ${{secrets.HEROKU_EMAIL}}
         branch: ${{github.ref_name}} #required, current branch name in github
